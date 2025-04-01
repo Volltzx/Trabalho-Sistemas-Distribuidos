@@ -7,8 +7,7 @@ import uvicorn
 app = FastAPI()
 
 OMDB_API_KEY = "9cbc0438"
-# Token Bearer do TMDB
-TMDB_BEARER_TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2Zjc1ZGU0MWE1ZjQ0NWYxY2Q3YTc3YjVmNmUyYjJjOCIsIm5iZiI6MTc0MzQ1MzY0Mi40MzkwMDAxLCJzdWIiOiI2N2VhZmRjYWI4MmY3ZjdkZDMyNDUzYzkiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.YYwUNcaRk_z8G1m764j5STvpnbInEZfqE1mVS01ESN0"
+TMDB_TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2Zjc1ZGU0MWE1ZjQ0NWYxY2Q3YTc3YjVmNmUyYjJjOCIsIm5iZiI6MTc0MzQ1MzY0Mi40MzkwMDAxLCJzdWIiOiI2N2VhZmRjYWI4MmY3ZjdkZDMyNDUzYzkiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.YYwUNcaRk_z8G1m764j5STvpnbInEZfqE1mVS01ESN0"
 
 class MovieRequest(BaseModel):
     titulo: str
@@ -20,15 +19,11 @@ async def get_movie(movie_req: MovieRequest):
     ano = movie_req.ano
 
     async with aiohttp.ClientSession() as session:
-        # URL da API OMDB para buscar o filme
         omdb_url = f"http://www.omdbapi.com/?t={titulo}&y={ano}&apikey={OMDB_API_KEY}"
-        # URL da API TMDB para buscar o filme (busca pelo título e ano)
-        tmdb_search_url = f"https://api.themoviedb.org/3/search/movie?query={titulo}&year={ano}"
-        
-        # Cabeçalho para TMDB (usado tanto na busca quanto na busca de reviews)
+        tmdb_url = f"https://api.themoviedb.org/3/search/movie?query={titulo}&year={ano}"
         headers_tmdb = {
             "accept": "application/json",
-            "Authorization": f"Bearer {TMDB_BEARER_TOKEN}"
+            "Authorization": f"Bearer {TMDB_TOKEN}"
         }
 
         async def fetch_omdb():
@@ -36,7 +31,7 @@ async def get_movie(movie_req: MovieRequest):
                 return await resp.json()
 
         async def fetch_tmdb_search():
-            async with session.get(tmdb_search_url, headers=headers_tmdb) as resp:
+            async with session.get(tmdb_url, headers=headers_tmdb) as resp:
                 return await resp.json()
 
         omdb_data, tmdb_search_data = await asyncio.gather(fetch_omdb(), fetch_tmdb_search())
