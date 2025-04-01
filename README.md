@@ -6,7 +6,7 @@ Desenvolvimento de um Serviço Agregador de Dados de APIs Públicas
 
 ### ```pip install fastapi uvicorn aiohttp requests```
 
-### Colocar suas API keys nas variáveis do OMDB_API_KEY e TMDB_TOKEN
+### Colocar suas API keys nas variáveis do ```OMDB_API_KEY``` e ```TMDB_TOKEN```
 
 ### Em um terminal digite ```python servidor.py``` para iniciar o servidor.
 
