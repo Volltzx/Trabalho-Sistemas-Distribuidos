@@ -6,8 +6,8 @@ import uvicorn
 
 app = FastAPI()
 
-OMDB_API_KEY = "API KEY DO OMDB"
-TMDB_TOKEN = "API KEY DO TMDB"
+OMDB_API_KEY = "API KEY DO OMDB"      # <-------------------
+TMDB_TOKEN = "API KEY DO TMDB"        # <-------------------
 
 class MovieRequest(BaseModel):
     titulo: str
