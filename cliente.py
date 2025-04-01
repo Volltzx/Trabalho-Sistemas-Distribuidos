@@ -1,5 +1,5 @@
 import requests
-import json  # Importa o módulo para formatação do JSON
+import json
 
 def main():
     titulo = input("Digite o nome do filme: ")
